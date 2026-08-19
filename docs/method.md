@@ -82,7 +82,7 @@ After COLS=8, GDN+FA are a few percent of 27B decode. A new D=256 FA or GDN Tens
 
 | Knife | Open if | Measured | Outcome |
 |---|---|---|---|
-| mmvq inline PTX (LDG.128 + ILP, not HMMA) | ncu DRAM **< 85%** | ncols=1 main kernel **81%**, warp occ 87–92% | Do not ship. Maybe +2–5% research. |
+| mmvq inline PTX (LDG.128 + ILP, not HMMA) | closed | ncols=1 DRAM **81%**, occ 87–92%; whole-model ~93% of the ~38 t/s paper wall | Not an open item. Reopen only with new ncu DRAM ≪ 81% **and** a >3% four-grid kill line |
 | D=256 FA / GDN-TC / raw SASS | — | — | Closed |
 | Flash 325 W | VBIOS has that limit | Typical 2080 Ti max 280 W | Closed |
 | `n_draft=5`, DSpark, extra TGP | four-grid or long MTP beats current | Did not | Closed |
