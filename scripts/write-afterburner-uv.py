@@ -16,10 +16,8 @@ import struct
 from datetime import datetime
 from pathlib import Path
 
+# No board's settled OC is the default. Passing only --cfg must not arm +1250/1800.
 DEFAULT_V = 800.0
-DEFAULT_F = 1800.0
-DEFAULT_MEM_MHZ = 1250
-DEFAULT_POWER = 112
 
 WIN_PROFILES = Path("/mnt/c/Program Files (x86)/MSI Afterburner/Profiles")
 
@@ -85,9 +83,9 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--cfg", type=Path, default=None, help="Afterburner profile .cfg (VEN_10DE…)")
     ap.add_argument("--mv", type=float, default=DEFAULT_V)
-    ap.add_argument("--mhz", type=float, default=DEFAULT_F)
-    ap.add_argument("--mem", type=int, default=DEFAULT_MEM_MHZ, help="memory slider offset, MHz")
-    ap.add_argument("--power", type=int, default=DEFAULT_POWER, help="power limit percent")
+    ap.add_argument("--mhz", type=float, required=True, help="flat frequency from --mv upward (MHz)")
+    ap.add_argument("--mem", type=int, required=True, help="memory slider offset, MHz (0 = stock)")
+    ap.add_argument("--power", type=int, required=True, help="power limit percent (e.g. 100 or 112)")
     args = ap.parse_args()
     src = args.cfg or discover_cfg()
     if src is None:

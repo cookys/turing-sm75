@@ -8,7 +8,7 @@ This is the **how to sweep**, not a promise that +285 / +1250 is right for your 
 
 - Windows: MSI Afterburner 4.6.x. Curve editor **X = millivolts, Y = MHz**.
 - WSL sees the same driver clocks. You do not overclock from `nvidia-smi -pl` inside WSL (no permission).
-- Writer: `scripts/write-afterburner-uv.py` (Afterburner **closed**). Pass `--cfg` to your `VEN_10DE&DEV_1E07….cfg` under `MSI Afterburner/Profiles`.
+- Writer: `scripts/write-afterburner-uv.py` (Afterburner **closed**). You must pass `--mhz`, `--mem`, and `--power`. There is no “this board’s OC” default. `--cfg` is the Afterburner profile for *your* GPU (Turing 2080 Ti PCI vendor/device is `10DE:1E07`; the rest of the filename is board-specific — do not copy ours).
 - Format 2 VFCurve: 3224 bytes, 128 points × `{float V_mV, float F_MHz, float U}`. Voltage grid `450 + i×6.25` mV. `U ≈ target − stock F`.
 
 On launch Afterburner turns a flat-from-knee curve into a **core slider offset** and rewrites F, leaving U. The file no longer looks flat. That does not mean it failed. Trust sliders + `nvidia-smi dmon` under load.

@@ -48,8 +48,9 @@ constexpr int kThreadsWmma = kNwarps * 32;
     } while (0)
 
 // ---------------------------------------------------------------------------
-// Naive O(S^2 D) attention. One block = one (batch, head), one thread = one Q.
-// This is the "fallback path" a framework gives you when FA is not compiled.
+// Naive attention used only as a correctness oracle.
+// It recomputes every QK dot inside the D loop — slower than a real O(S^2 D)
+// framework fallback. Do not quote its milliseconds as "the CPU/CUDA fallback".
 // ---------------------------------------------------------------------------
 __global__ void naive_attn_kernel(const half* __restrict__ Q,
                                   const half* __restrict__ K,
@@ -527,15 +528,21 @@ int main(int argc, char** argv) {
     CUDA_CHECK(cudaEventElapsedTime(&naive_ms, ev0, ev1));
     naive_ms /= iters;
 
-    const double flops = 4.0 * B * H * (double)S * S * D;
-    auto tflops = [&](float ms) { return flops / (ms * 1e-3) / 1e12; };
-    printf("wmma  (HMMA)     : %7.3f ms   %6.1f TFLOP/s\n", wmma_ms, tflops(wmma_ms));
-    printf("ffma  (CUDA core): %7.3f ms   %6.1f TFLOP/s\n", ffma_ms, tflops(ffma_ms));
-    printf("naive fallback   : %7.3f ms   %6.1f TFLOP/s\n", naive_ms, tflops(naive_ms));
-    printf("wmma vs ffma     : %.2fx\n", ffma_ms / wmma_ms);
+    // Dense-equivalent 4*B*H*S*S*D (what older notes quoted as 3.6 TFLOP/s).
+    // Causal executed work is ~2*B*H*S*(S+1)*D — about half at these shapes.
+    const double flops_dense = 4.0 * B * H * (double)S * S * D;
+    const double flops_exec = 2.0 * B * H * (double)S * (S + 1.0) * D;
+    auto tflops = [&](double flops, float ms) { return flops / (ms * 1e-3) / 1e12; };
+    printf("wmma  (HMMA)     : %7.3f ms   %6.1f TFLOP/s dense-eq   %6.1f causal-exec\n",
+           wmma_ms, tflops(flops_dense, wmma_ms), tflops(flops_exec, wmma_ms));
+    printf("ffma  (CUDA core): %7.3f ms   %6.1f TFLOP/s dense-eq   %6.1f causal-exec\n",
+           ffma_ms, tflops(flops_dense, ffma_ms), tflops(flops_exec, ffma_ms));
+    printf("naive oracle     : %7.3f ms   (not a realistic fallback)\n", naive_ms);
+    printf("wmma vs ffma     : %.2fx  (same FLOP convention both sides)\n", ffma_ms / wmma_ms);
     printf("\n"
-           "Same recurrence FA2 uses. Not the FA2 kernel.\n"
-           "WMMA 16x16x16 is the Turing-legal TC path. No cp.async / TMA / wgmma.\n");
+           "Same recurrence FA2 uses. Not the FA2 kernel. Not a 27B tok/s number.\n"
+           "WMMA 16x16x16 is the Turing-legal TC path. No cp.async / TMA / wgmma.\n"
+           "Published 3.6 TFLOP/s is dense-equivalent; causal-exec is ~half.\n");
 
     free_tensor(Q);
     free_tensor(K);

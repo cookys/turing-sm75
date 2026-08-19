@@ -14,7 +14,7 @@ A handwritten D=256 softmax FA is not the first 27B knife. On this card `fa on` 
 
 Stock `gated_delta_net.cu` is fp32, token-serial, warp reduce. No HMMA. There is an upstream TODO for a chunked prefill kernel.
 
-This repo's lab (`gdn_sm75.cu`) compared column occupancy vs chunked WMMA. **8 columns/warp** won. That is a one-line change (`kCols=8`) in ggml, not a new MMA kernel. Chunked WMMA was slower here.
+This repo's lab (`gdn_sm75.cu`) compared column occupancy vs chunked WMMA. **8 columns/warp** won. We applied that as a **local** one-line change (`kCols=8`) in our llama.cpp tree — it is not claimed as merged upstream, and this repo does not ship the ggml patch. Chunked WMMA was slower here. `make gdn` is the standalone lab, not a llama.cpp install.
 
 ## Q4 GEMM
 

@@ -7,3 +7,5 @@ a.out
 __pycache__/
 *.swp
 .DS_Store
+*.gguf
+/models/

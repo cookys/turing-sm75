@@ -53,7 +53,7 @@ if [ "$need_apt" -eq 1 ]; then
   if sudo apt-get update && sudo apt-get install -y --no-install-recommends "${PKGS[@]}"; then
     echo "apt install ok"
   else
-    echo "apt failed. If you have /tmp/cuda-13.3-min, I can sudo-install that instead."
+    echo "apt failed. Add NVIDIA's CUDA apt repo for your Ubuntu, or install cuda-nvcc-13-1 another way. Do not apt install nvidia-driver*."
     exit 1
   fi
 fi

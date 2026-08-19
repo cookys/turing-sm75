@@ -25,7 +25,7 @@ A comparison is void unless all of these hold:
 
 1. The binary prints the Turing GPU and **compute 7.5**. A Blackwell run of the same source is an `sm_120` cubin.
 2. Same llama.cpp family, same weights. A new quant is a new cell — do not subtract from an old one.
-3. The speed anchor is four cells: `pp512`, `tg128`, `pp512 @ d4096`, `tg128 @ d4096`, `r≥3`, with stddev. MTP is a **separate** long prompt (`n=512`) reporting tok/s **and** accept rate.
+3. The speed anchor is four cells: `pp512`, `tg128`, `pp512 @ d4096`, `tg128 @ d4096`, `r≥3`, with stddev. MTP is a **separate** long prompt (`n=512`) reporting tok/s **and** accept rate. Changing the paragraph makes a new cell — do not subtract from an old MTP number.
 4. Trust **load** `pclk` / `mclk` / power / temp from `nvidia-smi dmon`. Do not trust Afterburner's rewritten F column. Do not trust clocks after ncu unless you passed `--clock-control none`.
 5. One variable per run.
 6. Write the kill line **before** the change.
@@ -60,7 +60,7 @@ MTP and the four-grid can disagree. After any clock or quant change, rerun **bot
 
 ### 3. Apply
 
-Close Afterburner, then `scripts/write-afterburner-uv.py --cfg …`. Writing while the UI is open gets overwritten. Publish a **range** (e.g. tg 34.6–35.6), not one peak.
+Close Afterburner, then `scripts/write-afterburner-uv.py --cfg … --mhz … --mem … --power …`. Writing while the UI is open gets overwritten. A no-args run must refuse. Publish a **range** (e.g. tg 34.6–35.6), not one peak.
 
 Details: [`clocks.md`](clocks.md).
 

@@ -20,7 +20,7 @@ Raster performance of a 2080 Ti is still close to a 4060 Ti / 5060. LLM stacks a
 | Afterburner VF-curve writer | [`scripts/write-afterburner-uv.py`](scripts/write-afterburner-uv.py) |
 | Survey (who writes sm_75 kernels, why LLM loses) | [`docs/survey.md`](docs/survey.md) |
 
-Not in this tree: hostnames, LAN IPs, GPU UUIDs, VBIOS dumps, private SWE task names, or anyone's Afterburner profile path.
+Not in this tree (on purpose): hostnames, LAN IPs, GPU UUIDs, VBIOS dumps, private SWE task names, Afterburner profile paths, or a live fleet dashboard. The 22 GB figure is a **board mod**, not a stock Founders 11 GB card — bandwidth is still 352-bit / 616 GB/s.
 
 ## Build (must be `sm_75`)
 
@@ -43,7 +43,7 @@ Same 2080 Ti, Qwen3.8-27B, llama.cpp CUDA `sm_75`. Four-grid protocol in `script
 | Change | tg128 | pp512 @ 4k |
 |---|---:|---:|
 | stock Q4, `fa on` | 27.5 | 622 |
-| GDN 8 columns/warp (this repo) | 27.8 | 653 |
+| GDN 8 cols/warp (local llama.cpp patch, not upstream) | 27.8 | 653 |
 | IQ4_XS | 29.1 | 741 |
 | clocks (example: core +285 / mem +1250) | **35.6** | **837** |
 
