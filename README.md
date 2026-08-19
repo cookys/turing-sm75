@@ -4,12 +4,13 @@ Kernels, clocks, and a method for running LLMs on a **modded 22 GB RTX 2080 Ti**
 
 Raster on this class is still close to a 4060 Ti / 5060. LLM stacks are not: FlashAttention 2/3, vLLM, and most fused INT4 kernels dropped pre-Ampere. This repo is the missing middle — what is still legal on Turing, what stock llama.cpp already does, and how to tell **clocks / quant / spec-decode** from **handwritten CUDA**.
 
-中文：從一張 **2080 Ti 22GB 改件** 抽出的公開套件。不含內網、VBIOS、私有考卷。方法論在 [`docs/method.md`](docs/method.md)。
+中文：從一張 **2080 Ti 22GB 改件** 抽出的公開套件。不含內網、VBIOS、私有考卷。決策法在 [`docs/method.md`](docs/method.md)。Clone 之後對**你手上那張卡**走 skill `squeeze-gpu`（`/squeeze-gpu`）——2080 Ti 只是例子，滑桿不能抄。
 
 ## What's here
 
 | Piece | Path |
 |---|---|
+| **Session playbook (any local GPU)** | [`.grok/skills/squeeze-gpu/SKILL.md`](.grok/skills/squeeze-gpu/SKILL.md) |
 | Softmax FA lab (WMMA, D=64/128) | [`src/attn_sm75.cu`](src/attn_sm75.cu) |
 | Gated DeltaNet lab (Qwen3.8-27B shape) | [`src/gdn_sm75.cu`](src/gdn_sm75.cu) |
 | Decision method (clocks **and** kernels) | [`docs/method.md`](docs/method.md) |
