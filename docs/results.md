@@ -1,9 +1,8 @@
-# Example measurements
+# Example measurements — RTX 2080 Ti Mod 22GB
 
-One **RTX 2080 Ti** (TU102 cut-down: 68 SM, 352-bit, **616 GB/s**, 22 GB VRAM). Date 2026-08. Protocol: [`scripts/llama-bench-grid.sh`](../scripts/llama-bench-grid.sh). Model: Qwen3.8-27B ([`qwen38-27b.md`](qwen38-27b.md)). Engine: llama.cpp CUDA, `CMAKE_CUDA_ARCHITECTURES=75`.
+TU102 cut-down: 68 SM, 352-bit, **616 GB/s**, 22 GB VRAM (not stock 11 GB). Date 2026-08. Protocol: [`scripts/llama-bench-grid.sh`](../scripts/llama-bench-grid.sh). Model: Qwen3.8-27B ([`qwen38-27b.md`](qwen38-27b.md)). Engine: llama.cpp CUDA, `CMAKE_CUDA_ARCHITECTURES=75`.
 
-These are a **worked example** of [`method.md`](method.md), not a fleet leaderboard.
-**Stock 11 GB 2080 Ti cannot hold 27B Q4 at `-ngl 99`.** The table needs the 22 GB mod.
+Worked example of [`method.md`](method.md), not a fleet leaderboard.
 
 ## Lab kernels (this repo)
 

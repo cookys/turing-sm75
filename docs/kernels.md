@@ -1,4 +1,4 @@
-# Kernels in this repo
+# Kernels — RTX 2080 Ti Mod 22GB
 
 Both binaries are **`compute_75,code=sm_75` only**. Do not add `sm_120` “so it also runs”.
 

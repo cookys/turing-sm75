@@ -1,10 +1,10 @@
-# turing-sm75
+# turing-sm75 — RTX 2080 Ti Mod 22GB (`sm_75`)
 
-Kernels, clocks, and a method for running LLMs on **NVIDIA Turing (`sm_75`)** — the RTX 2080 Ti class.
+Kernels, clocks, and a method for running LLMs on a **modded 22 GB RTX 2080 Ti** (Turing `sm_75`, still 352-bit / 616 GB/s). Not a stock 11 GB card.
 
-Raster performance of a 2080 Ti is still close to a 4060 Ti / 5060. LLM stacks are not: FlashAttention 2/3, vLLM, and most fused INT4 kernels dropped pre-Ampere. This repo is the missing middle — what is still legal on Turing, what stock llama.cpp already does, and how to tell **clocks / quant / spec-decode** from **handwritten CUDA**.
+Raster on this class is still close to a 4060 Ti / 5060. LLM stacks are not: FlashAttention 2/3, vLLM, and most fused INT4 kernels dropped pre-Ampere. This repo is the missing middle — what is still legal on Turing, what stock llama.cpp already does, and how to tell **clocks / quant / spec-decode** from **handwritten CUDA**.
 
-中文：這是從一張 2080 Ti 實驗室抽出的**可公開**套件。不含內網、VBIOS、私有考卷。方法論在 [`docs/method.md`](docs/method.md)。
+中文：從一張 **2080 Ti 22GB 改件** 抽出的公開套件。不含內網、VBIOS、私有考卷。方法論在 [`docs/method.md`](docs/method.md)。
 
 ## What's here
 
@@ -15,12 +15,12 @@ Raster performance of a 2080 Ti is still close to a 4060 Ti / 5060. LLM stacks a
 | Decision method (clocks **and** kernels) | [`docs/method.md`](docs/method.md) |
 | Occupancy gate before writing CUDA | [`docs/impl-gate.md`](docs/impl-gate.md) |
 | TU102 layout / HMMA / what not to copy | [`docs/tu102.md`](docs/tu102.md) |
-| Example numbers (one 2080 Ti, 2026-08) | [`docs/results.md`](docs/results.md) |
+| Example numbers (this 22GB board, 2026-08) | [`docs/results.md`](docs/results.md) |
 | Four-grid llama-bench protocol | [`scripts/llama-bench-grid.sh`](scripts/llama-bench-grid.sh) |
 | Afterburner VF-curve writer | [`scripts/write-afterburner-uv.py`](scripts/write-afterburner-uv.py) |
 | Survey (who writes sm_75 kernels, why LLM loses) | [`docs/survey.md`](docs/survey.md) |
 
-Not in this tree (on purpose): hostnames, LAN IPs, GPU UUIDs, VBIOS dumps, private SWE task names, Afterburner profile paths, or a live fleet dashboard. The 22 GB figure is a **board mod**, not a stock Founders 11 GB card — bandwidth is still 352-bit / 616 GB/s.
+Not in this tree (on purpose): hostnames, LAN IPs, GPU UUIDs, VBIOS dumps, private SWE task names, Afterburner profile paths, or a live fleet dashboard.
 
 ## Build (must be `sm_75`)
 
@@ -38,7 +38,7 @@ Claims need: printed `RTX 2080 Ti` (or your Turing card) + `sm_75` + error vs na
 
 ## The result in one table
 
-Same 2080 Ti, Qwen3.8-27B, llama.cpp CUDA `sm_75`. Four-grid protocol in `scripts/llama-bench-grid.sh`.
+Same 2080 Ti Mod 22GB, Qwen3.8-27B, llama.cpp CUDA `sm_75`. Four-grid protocol in `scripts/llama-bench-grid.sh`.
 
 | Change | tg128 | pp512 @ 4k |
 |---|---:|---:|

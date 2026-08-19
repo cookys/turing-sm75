@@ -1,4 +1,4 @@
-# Clocks on a 2080 Ti (Afterburner)
+# Clocks on a 2080 Ti Mod 22GB (Afterburner)
 
 Decision law: [`method.md`](method.md). Example scores: [`results.md`](results.md).
 
