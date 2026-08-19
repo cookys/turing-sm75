@@ -1,0 +1,9 @@
+/build/
+*.o
+*.cubin
+*.exe
+a.out
+.cache/
+__pycache__/
+*.swp
+.DS_Store
