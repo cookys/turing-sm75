@@ -4,12 +4,23 @@ Kernels, clocks, and a method for running LLMs on a **modded 22 GB RTX 2080 Ti**
 
 Raster on this class is still close to a 4060 Ti / 5060. LLM stacks are not: FlashAttention 2/3, vLLM, and most fused INT4 kernels dropped pre-Ampere. This repo is the missing middle — what is still legal on Turing, what stock llama.cpp already does, and how to tell **clocks / quant / spec-decode** from **handwritten CUDA**.
 
+> **Status: the hand-written-kernel line of work closed on 2026-08-20 — one day after this
+> repo was first published.** The verdict, its evidence table, and the conditions that would
+> reopen it are in [`docs/closed.md`](docs/closed.md). **Read that before treating anything
+> below as an open lead**: 27B decode profiles as `mul_mat_vec_q` sweeping weights against a
+> 616 GB/s wall, whole-model throughput is already at ~93% of that wall, and hand-written
+> CUDA was worth about **1%** here. What moved the number was clocks and quantisation:
+> **27.5 → 35.6 tok/s**. The rest of these docs were written while the question was still
+> open and are left as the record of how it was answered, so sentences that read like
+> to-do items are not.
+
 中文：從一張 **2080 Ti 22GB 改件** 抽出的公開套件。不含內網、VBIOS、私有考卷。決策法在 [`docs/method.md`](docs/method.md)。Clone 之後對**你手上那張卡**走 skill `squeeze-gpu`（`/squeeze-gpu`）——2080 Ti 只是例子，滑桿不能抄。
 
 ## What's here
 
 | Piece | Path |
 |---|---|
+| **Verdict — read first** | [`docs/closed.md`](docs/closed.md) |
 | **Session playbook (any local GPU)** | [`.grok/skills/squeeze-gpu/SKILL.md`](.grok/skills/squeeze-gpu/SKILL.md) |
 | Softmax FA lab (WMMA, D=64/128) | [`src/attn_sm75.cu`](src/attn_sm75.cu) |
 | Gated DeltaNet lab (Qwen3.8-27B shape) | [`src/gdn_sm75.cu`](src/gdn_sm75.cu) |
